@@ -29,8 +29,10 @@ let () =
   (* Open file *)
   let graph = from_file infile in
 
+  let graph2 = gmap graph (fun x -> x^"2") in
   (* Rewrite the graph that has been read. *)
-  let () = write_file outfile graph in
-  
+  let () = write_file outfile graph2 in
+    export "outfiletest" graph;
+    export "outfiletest2" graph2;
   ()
 

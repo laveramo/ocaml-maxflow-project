@@ -112,3 +112,15 @@ let from_file path =
   close_in infile ;
   final_graph
   
+let export f gr =
+  let file = open_out f in 
+  let func arc = fprintf file "%d -> %d [label = \"%s\"];\n" arc.src arc.tgt arc.lbl in
+  fprintf file " digraph finite_state_machine { 
+    fontname=\"Helvetica,Arial,sans-serif\"
+    node [fontname=\"Helvetica,Arial,sans-serif\"]
+    edge [fontname=\"Helvetica,Arial,sans-serif\"]
+    rankdir=LR;
+    node [shape = circle];\n" ;
+    e_iter gr func ;
+  fprintf file "} \n"
+;;
