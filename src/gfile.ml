@@ -122,5 +122,5 @@ let export f gr =
     rankdir=LR;
     node [shape = circle];\n" ;
     e_iter gr func ;
-  fprintf file "} \n"
+  fprintf file "} \n" ;
 ;;

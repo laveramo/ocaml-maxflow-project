@@ -29,7 +29,7 @@ let () =
   (* Open file *)
   let graph = from_file infile in
 
-  let graph2 = gmap graph (fun x -> x^"2") in
+  let graph2 = gmap graph (fun x -> x^"3") in
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
     export "outfiletest" graph;
