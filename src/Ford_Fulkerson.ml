@@ -30,4 +30,12 @@ let rec find_route gr visited id1 id2 =
         | Some liste -> Some (x :: liste)
 ;;
 
+let rec max_flow_path gr max id1 id2 = function
+  | [] -> max
+  | nd :: rest ->
+    match find_arc gr id1 nd with
+    | None -> 0
+    | Some arc -> max_flow_path gr (min max arc.lbl) nd id2 rest
+;;
+
 

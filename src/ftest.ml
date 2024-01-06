@@ -30,14 +30,20 @@ let () =
 
   (* Open file *)
   let graph = from_file infile in
-  let testy = find_route (gmap graph (fun x -> int_of_string x + 2)) [] 6 10 in
-  match testy with
-  | Some path ->
-    Printf.printf "Path found: ";
-    List.iter (fun node -> Printf.printf "%d -> " node) path;
-    Printf.printf "End\n"
-  | None ->
-    Printf.printf "No path found.\n";
+
+  let testy = find_route (gmap graph (fun x -> int_of_string x + 2)) [] 1 12 in
+  let max = max_flow_path (gmap graph (fun x -> int_of_string x + 2)) 600 1 12 (Option.get testy) in
+Printf.printf "max flow of this path is  : %d\n" max;
+match testy with
+| Some path ->
+  Printf.printf "Path found: ";
+  List.iter (fun node -> Printf.printf "%d -> " node) path;
+  Printf.printf "End\n"
+| None ->
+  Printf.printf "No path found.\n";
+
+
+
 
 let graph2 = gmap graph (fun x -> string_of_int (int_of_string x + 2)) in
        

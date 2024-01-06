@@ -10,4 +10,7 @@ type paths = id list
 
 val find_route: int graph -> id list -> id -> id -> paths option
 
+val max_flow_path: int graph -> int -> id -> id -> paths -> int 
+
+
 
