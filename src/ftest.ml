@@ -1,6 +1,6 @@
 open Gfile
 open Tools
-
+open Ford_Fulkerson
 let () =
 
   (* Check the number of command-line arguments *)
@@ -25,11 +25,22 @@ let () =
   and _source = int_of_string Sys.argv.(2)
   and _sink = int_of_string Sys.argv.(3)
   in
+  
+
 
   (* Open file *)
   let graph = from_file infile in
+  let testy = find_route (gmap graph (fun x -> int_of_string x + 2)) [] 6 10 in
+  match testy with
+  | Some path ->
+    Printf.printf "Path found: ";
+    List.iter (fun node -> Printf.printf "%d -> " node) path;
+    Printf.printf "End\n"
+  | None ->
+    Printf.printf "No path found.\n";
 
-  let graph2 = gmap graph (fun x -> x^"3") in
+let graph2 = gmap graph (fun x -> string_of_int (int_of_string x + 2)) in
+       
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
     export "outfiletest" graph;
