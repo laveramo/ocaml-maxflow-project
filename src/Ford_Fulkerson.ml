@@ -1,5 +1,7 @@
 open Graph
 open Tools
+open Gfile
+
 
 
 type paths = id list
@@ -22,7 +24,7 @@ let rec find_route gr visited id1 id2 =
           if is_visited dst visited || vl <= 0 then arcs_route rest
           else dst :: arcs_route rest
     in
-
+ 
     match arcs_route out_arcs_node with
     | [] -> None
     | x :: _ ->
@@ -62,6 +64,26 @@ let rec modify_flow gr n id1 id2= function
   ;;
   
 
+let ford_fulkerson graph id1 id2 = 
+  let resd_graph = residuel_graph graph in
+  let maxs = 500 in
+  let visited = [] in
+
+  let rec loop res_graph id1 id2 = 
+    
+    let  path = find_route graph visited id1 id2 in
+    match path with 
+    |None -> export "outfilexport3" (gmap res_graph (fun x -> string_of_int x));
+  inter_residuel_graph graph res_graph
+
+  |Some list -> 
+    let flow = max_flow_path res_graph maxs id1 id2 list in  
+    let modified_graph = modify_flow res_graph flow id1 id2 list in
+    loop modified_graph id1 id2 
+
+  in
+  loop resd_graph id1 id2 
+;;
 
 
 

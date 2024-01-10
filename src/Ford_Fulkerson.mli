@@ -20,6 +20,8 @@ val inter_residuel_graph  : int graph -> int graph -> string graph
 
 val residuel_graph : int graph -> int graph
 
+val ford_fulkerson : int graph -> id -> id -> string graph 
+
 
 
 
