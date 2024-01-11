@@ -31,12 +31,18 @@ let () =
   (* Open file *)
   let graph = from_file infile in
 
-  let testy = find_route (gmap graph (fun x -> int_of_string x )) [] 0 10 in
+  let testy = find_route2 (gmap graph (fun x -> int_of_string x ))  0 10 in
+  match testy with
+| Some path ->
+  Printf.printf "Path found: ";
+  List.iter (fun node -> Printf.printf "%d -> " node) path;
+  Printf.printf "End\n"
+| None ->
+  Printf.printf "No path found.\n";
 
-  let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in
+ (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
 
-(*let graph2 = gmap (residuel_graph (gmap graph (fun x -> int_of_string x))) (fun x -> string_of_int x)  in *)
-       
+ let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 5 in       
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
     export "graph" graph;

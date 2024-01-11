@@ -1,5 +1,6 @@
 open Graph
 open Tools
+open Gfile
 
 type paths = id list
 
@@ -29,6 +30,13 @@ let rec find_route gr visited id1 id2 =
         | None -> find_route gr (x :: visited) id1 id2
         | Some liste -> Some (x :: liste)
 ;;
+
+let find_route2  gr id1 id2= 
+match(find_route gr [] id1 id2) with 
+|None -> None 
+|Some l -> Some (id1::l) 
+;;
+
 
 let residuel_graph gr = 
   let empty_graph = clone_nodes gr in 
@@ -63,25 +71,24 @@ let rec modify_flow gr n = function
   ;;
   
 
-(*let ford_fulkerson graph id1 id2 = 
-  let resd_graph = residuel_graph graph in
-  let maxs = 500 in
-  let visited = [] in
-
-  let rec loop res_graph id1 id2 = 
-    
-    let  path = find_route graph visited id1 id2 in
-    match path with res_graph
-    |None -> export "outfilexport3" (gmap res_graph (fun x -> string_of_int x));
-  inter_residuel_graph graph res_graph
-
-  |Some list -> 
-    let flow = max_flow_path res_graph maxs id1 id2 list in  
-    let modified_graph = modify_flow res_graph flow id1 id2 list in
-    loop modified_graph id1 id2 
-
-  in
-  loop resd_graph id1 id2 *)
+  let ford_fulkerson graph id1 id2 = 
+    let res_graph = residuel_graph graph in
+    let maxs = 500 in
+  
+    let rec loop res_graph id1 id2 = 
+      let path = find_route2 graph id1 id2 in
+      match path with
+      | None -> 
+        export "outfilexport3" (gmap res_graph (fun x -> string_of_int x));
+        inter_residuel_graph graph res_graph
+      | Some list -> 
+        let flow = max_flow_path res_graph maxs id1 id2 list in  
+        let modified_graph = modify_flow res_graph flow  list in
+        loop modified_graph id1 id2
+    in
+  
+    loop res_graph id1 id2
+   
 ;;
 
 
