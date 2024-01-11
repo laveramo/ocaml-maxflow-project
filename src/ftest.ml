@@ -32,24 +32,14 @@ let () =
   let graph = from_file infile in
 
   let testy = find_route (gmap graph (fun x -> int_of_string x )) [] 0 10 in
-  let max = max_flow_path (gmap graph (fun x -> int_of_string x )) 600 0 10 (Option.get testy) in
-Printf.printf "max flow of this path is  : %d\n" max;
-match testy with
-| Some path ->
-  Printf.printf "Path found: ";
-  List.iter (fun node -> Printf.printf "%d -> " node) path;
-  Printf.printf "End\n"
-| None ->
-  Printf.printf "No path found.\n";
 
-
-let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 5 in
+  let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in
 
 (*let graph2 = gmap (residuel_graph (gmap graph (fun x -> int_of_string x))) (fun x -> string_of_int x)  in *)
        
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
-    export "outfiletest" graph;
-    export "outfiletest2" graph2;
+    export "graph" graph;
+    export "graph2" graph2;
   ()
 

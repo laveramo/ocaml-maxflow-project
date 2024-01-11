@@ -1,8 +1,5 @@
 open Graph
 open Tools
-open Gfile
-
-
 
 type paths = id list
 
@@ -47,9 +44,11 @@ let rec max_flow_path gr max id1 id2 = function
     | Some arc -> max_flow_path gr (min max arc.lbl) nd id2 rest
 ;;
 
-let rec modify_flow gr n id1 id2= function
-  |[] -> new_arc (new_arc gr {src = id2 ; tgt = id1 ; lbl = n}) {src= id1 ; tgt = id2 ; lbl = (-n)}
-  |nd::rest -> modify_flow (new_arc (new_arc gr {src = nd ; tgt = id1 ; lbl = n}) {src = id1; tgt =nd ; lbl = (-n)}) n nd id2 rest
+(*c'est bon*)
+let rec modify_flow gr n = function
+  |[] -> gr
+  |_ :: [] -> gr
+  |nd1 :: nd2 :: rest -> modify_flow (add_arc (add_arc gr nd1 nd2 (-n)) nd2 nd1 n) n (nd2::rest)
   ;;
 
   let inter_residuel_graph graph resd_graph =
@@ -64,7 +63,7 @@ let rec modify_flow gr n id1 id2= function
   ;;
   
 
-let ford_fulkerson graph id1 id2 = 
+(*let ford_fulkerson graph id1 id2 = 
   let resd_graph = residuel_graph graph in
   let maxs = 500 in
   let visited = [] in
@@ -72,7 +71,7 @@ let ford_fulkerson graph id1 id2 =
   let rec loop res_graph id1 id2 = 
     
     let  path = find_route graph visited id1 id2 in
-    match path with 
+    match path with res_graph
     |None -> export "outfilexport3" (gmap res_graph (fun x -> string_of_int x));
   inter_residuel_graph graph res_graph
 
@@ -82,7 +81,7 @@ let ford_fulkerson graph id1 id2 =
     loop modified_graph id1 id2 
 
   in
-  loop resd_graph id1 id2 
+  loop resd_graph id1 id2 *)
 ;;
 
 
