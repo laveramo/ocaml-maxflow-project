@@ -63,7 +63,7 @@ let rec modify_flow gr n = function
   ;;
   
 
-(*let ford_fulkerson graph id1 id2 = 
+let ford_fulkerson graph id1 id2 = 
   let resd_graph = residuel_graph graph in
   let maxs = 500 in
   let visited = [] in
@@ -81,7 +81,7 @@ let rec modify_flow gr n = function
     loop modified_graph id1 id2 
 
   in
-  loop resd_graph id1 id2 *)
+  loop resd_graph id1 id2
 ;;
 
 
