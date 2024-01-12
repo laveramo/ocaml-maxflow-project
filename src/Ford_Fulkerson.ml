@@ -57,7 +57,7 @@ let rec max_flow_path gr max  = function
 let rec modify_flow gr n = function
   |[] -> gr
   |_ :: [] -> gr
-  |nd1 :: nd2 :: rest -> modify_flow (add_arc (add_arc gr nd1 nd2 (-n)) nd2 nd1 n) n (nd2::rest)
+  |nd1 :: nd2 :: rest -> modify_flow (add_arc gr nd1 nd2 (-n)) n (nd2::rest)
 ;;
 
 let inter_residuel_graph graph resd_graph =
@@ -72,7 +72,6 @@ let inter_residuel_graph graph resd_graph =
 ;;
   
 let ford_fulkerson graph id1 id2 =
-    let residual_graph = residuel_graph graph in
     let rec loop l_graph id1 id2 =
       let max = 500 in
       let visited = [] in
@@ -84,7 +83,7 @@ let ford_fulkerson graph id1 id2 =
         let modified_resid_graph = modify_flow l_graph flow list in
         loop modified_resid_graph id1 id2
     in
-    loop residual_graph id1 id2
+    loop graph id1 id2
 ;;
   
   

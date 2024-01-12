@@ -32,7 +32,7 @@ let () =
 
 
   (* Open file *)
-  let graph = from_file infile in
+  
   (*let testy = find_route2 (gmap graph (fun x -> int_of_string x )) [] 0 5 in
   match testy with
 | Some path ->
@@ -42,7 +42,7 @@ let () =
 | None ->
   Printf.printf "No path found.\n";*)
  (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
-
+ let graph = from_file infile in
  let graph2 = gmap (ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 10) (fun x -> string_of_int x)  in     
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
