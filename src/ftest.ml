@@ -27,33 +27,17 @@ let () =
   in
   
 
+ (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
+  
+
 
   (* Open file *)
   let graph = from_file infile in
 
-  let testy = find_route2 (gmap graph (fun x -> int_of_string x ))  0 10 in
-  match testy with
-| Some path ->
-  Printf.printf "Path found: ";
-  List.iter (fun node -> Printf.printf "%d -> " node) path;
-  Printf.printf "End\n"
-| None ->
-  Printf.printf "No path found.\n";
-
- (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
-
- let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 5 in 
- let path2 = find_route2 (gmap graph (fun x -> int_of_string x ))  0 10 in
- match path2 with
-| Some path ->
-  Printf.printf "Path found: ";
-  List.iter (fun node -> Printf.printf "%d -> " node) path;
-  Printf.printf "End\n"
-| None ->
-  Printf.printf "No path found.\n";      
+ let graph2 = gmap (ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 10) (fun x -> string_of_int x)  in     
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
-    export "graph" graph;
-    export "graph2" graph2;
+    export "outfiletest" graph;
+    export "outfiletest2" graph2;
   ()
 
