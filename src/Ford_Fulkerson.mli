@@ -10,9 +10,9 @@ type paths = id list
 
   
 
-val find_route: int graph -> int arc list -> id -> id -> paths option
+val find_route: int graph -> int  list -> id -> id -> paths option
 
-val find_route2: int graph -> int arc list -> id -> id -> paths option
+val find_route2: int graph -> int  list -> id -> id -> paths option
 
 val max_flow_path: int graph -> int -> paths -> int
 

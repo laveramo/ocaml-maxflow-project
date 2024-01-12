@@ -12,26 +12,23 @@ let rec find_route gr visited id1 id2 =
 
     let rec is_visited x = function
       | [] -> false
-      | a :: _ when x.src = a.src && x.tgt = a.tgt && x.lbl = a.lbl -> true
+      | a :: _ when x = a -> true
       | _ :: rest -> is_visited x rest
     in
 
     let rec arcs_route = function
       | [] -> []
-      | { src = x; tgt = dst; lbl = vl } :: rest ->
-          if is_visited { src = x; tgt = dst; lbl = vl } visited || vl == 0 then arcs_route rest
-          else x :: arcs_route rest
+      | { src = _; tgt = dst; lbl = vl } :: rest ->
+          if is_visited dst visited || vl <= 0 then arcs_route rest
+          else dst :: arcs_route rest
     in
- 
+
     match arcs_route out_arcs_node with
     | [] -> None
     | x :: _ ->
         match find_route gr visited x id2 with
-        | None -> 
-          let arcs_x = out_arcs gr x in
-          find_route gr (List.append arcs_x visited ) id1 id2
-        | Some liste ->
-            Some (x :: liste)
+        | None -> find_route gr (x :: visited) id1 id2
+        | Some liste -> Some (x :: liste)
 ;;
 
 let find_route2  gr visited id1 id2= 
@@ -79,7 +76,7 @@ let ford_fulkerson graph id1 id2 =
     let rec loop l_graph id1 id2 =
       let max = 500 in
       let visited = [] in
-      let path = find_route l_graph visited id1 id2 in
+      let path = find_route2 l_graph visited id1 id2 in
       match path with
       | None -> l_graph
       | Some list ->
