@@ -72,22 +72,20 @@ let rec modify_flow gr n = function
   
 
   let ford_fulkerson graph id1 id2 = 
-    let res_graph = residuel_graph graph in
     let maxs = 500 in
   
     let rec loop res_graph id1 id2 = 
-      let path = find_route2 graph id1 id2 in
+      let path = find_route2 res_graph id1 id2 in
       match path with
       | None -> 
         export "outfilexport3" (gmap res_graph (fun x -> string_of_int x));
         inter_residuel_graph graph res_graph
       | Some list -> 
-        let flow = max_flow_path res_graph maxs id1 id2 list in  
-        let modified_graph = modify_flow res_graph flow  list in
-        loop modified_graph id1 id2
+        let flow = max_flow_path res_graph maxs id1 id2 list in
+        loop (modify_flow res_graph flow  list) id1 id2
     in
   
-    loop res_graph id1 id2
+    loop graph id1 id2
    
 ;;
 
