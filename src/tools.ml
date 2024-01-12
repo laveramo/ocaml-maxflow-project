@@ -11,3 +11,6 @@ let add_arc g id1 id2 n =
   match arc_found with
   | Some arc -> new_arc g {src = id1; tgt = id2; lbl = arc.lbl + n}
   | None -> new_arc g {src = id1; tgt = id2; lbl = n}
+
+  
+  
