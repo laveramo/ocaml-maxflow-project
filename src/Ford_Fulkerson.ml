@@ -75,15 +75,20 @@ let inter_residuel_graph graph resd_graph =
     e_fold graph f new_graph 
 ;;
   
-let rec ford_fulkerson graph id1 id2 =
+let ford_fulkerson graph id1 id2 =
+    let residual_graph = residuel_graph graph in
+    let rec loop l_graph id1 id2 =
       let max = 500 in
       let visited = [] in
       let path = find_route graph visited id1 id2 in
       match path with
       | None -> graph
       | Some list ->
-        let flow = max_flow_path graph max list in
-        ford_fulkerson (modify_flow graph flow list) id1 id2
+        let flow = max_flow_path l_graph max list in
+        let modified_resid_graph = modify_flow l_graph flow list in
+        loop modified_resid_graph id1 id2
+    in
+    loop graph id1 id2
 ;;
   
   
