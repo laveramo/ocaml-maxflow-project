@@ -43,7 +43,7 @@ let () =
   Printf.printf "No path found.\n";*)
  (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
  let graph = from_file infile in
- let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 5  in     
+ let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 3  in     
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
     export "outfiletest" graph;
