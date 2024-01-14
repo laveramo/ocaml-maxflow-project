@@ -1,7 +1,6 @@
 open Graph
 open Tools
 
-
 type paths = id list
 
 
@@ -67,18 +66,18 @@ let rec modify_flow gr n = function
   |nd1 :: nd2 :: rest -> modify_flow (add_arc gr nd1 nd2 (-n)) n (nd2::rest)
 ;;
 
-let inter_residuel_graph graph resd_graph =
-    let new_graph = clone_nodes graph in
-    let f empty_graph arc =
-      let v = match find_arc resd_graph arc.tgt arc.src with
-        | None -> raise (Failure "Error")
-        | Some x -> x
-      in
-      new_arc empty_graph {src = arc.src; tgt = arc.tgt; lbl = Printf.sprintf "%d/%d" v.lbl arc.lbl} in
-    e_fold graph f new_graph 
+let inter_residuel_graph grapho resd_graph =
+  let graphn = clone_nodes grapho in
+  let f graphvide {src = id1; tgt= id2;  lbl = id } = 
+    let v = match find_arc resd_graph id1 id2 with
+      |None -> raise (Failure "Error" )
+      |Some z -> z
+    in
+    new_arc graphvide { src = id1 ; tgt = id2 ; lbl = (string_of_int (id -v.lbl) ^ "/" ^string_of_int id)} in
+  e_fold grapho f graphn 
 ;;
   
-let ford_fulkerson graph id1 id2 =
+let ford_fulkerson graph id1 id2 = 
     let rec loop l_graph id1 id2 =
       let max = 500 in
       let visited = [] in
@@ -86,7 +85,7 @@ let ford_fulkerson graph id1 id2 =
       
       Printf.printf "\n";
       match path with
-      | None -> l_graph
+      | None -> inter_residuel_graph graph l_graph
       | Some list ->
         
         let flow = max_flow_path l_graph max list in
