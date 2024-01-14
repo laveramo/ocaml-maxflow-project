@@ -9,7 +9,8 @@ let rec find_route gr visited id1 id2 =
   if id1 = id2 then Some []
   else
     let out_arcs_node = out_arcs gr id1 in
-    Printf.printf "Current node: %d\n" id1;
+    (*Printf.printf "Current node: %d\n" id1;*)
+
     let rec is_visited x = function
       | [] -> false
       | a :: _ when x = a -> true
@@ -22,11 +23,13 @@ let rec find_route gr visited id1 id2 =
           if is_visited dst visited || vl <= 0 then arcs_route rest
           else dst :: arcs_route rest
     in
-    
-    let list_arcs = arcs_route out_arcs_node in
+    (*let list_arcs = arcs_route out_arcs_node in
     Printf.printf "list arcs of %d:\n" id1;
     List.iter (fun node -> Printf.printf "%d - " node) list_arcs;
     Printf.printf "\n";
+    Printf.printf "already visited %d:\n" id1;
+    List.iter (fun node -> Printf.printf "%d - " node) visited;
+    Printf.printf "\n\n";*)
     match arcs_route out_arcs_node with
     | [] -> None
     | x :: _ ->
@@ -76,36 +79,23 @@ let inter_residuel_graph graph resd_graph =
 ;;
   
 let ford_fulkerson graph id1 id2 =
-    let residual_graph = residuel_graph graph in
     let rec loop l_graph id1 id2 =
       let max = 500 in
       let visited = [] in
-      let path = find_route graph visited id1 id2 in
+      let path = find_route2 l_graph visited id1 id2 in
+      
+      Printf.printf "\n";
       match path with
-      | None -> graph
+      | None -> l_graph
       | Some list ->
+        
         let flow = max_flow_path l_graph max list in
+        Printf.printf "flow maximum: %d for " flow;
+        Printf.printf "path found:\n";
+        List.iter (fun node -> Printf.printf "%d -> " node) list;
         let modified_resid_graph = modify_flow l_graph flow list in
         loop modified_resid_graph id1 id2
     in
     loop graph id1 id2
 ;;
   
-  
-
-
-
-
-
-
-
-
-
-
-
-  
-  
- 
-
-
-
