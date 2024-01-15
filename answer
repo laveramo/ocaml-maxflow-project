@@ -1,0 +1,16 @@
+ digraph finite_state_machine { 
+    fontname="Helvetica,Arial,sans-serif"
+    node [fontname="Helvetica,Arial,sans-serif"]
+    edge [fontname="Helvetica,Arial,sans-serif"]
+    rankdir=LR;
+    node [shape = circle];
+1 -> 0 [label = "40/100"];
+1 -> 2 [label = "0/100"];
+2 -> 0 [label = "0/100"];
+2 -> 1 [label = "20/100"];
+0 -> 1 [label = "0/100"];
+0 -> 2 [label = "0/100"];
+0 -> 1000 [label = "40/40"];
+2000 -> 1 [label = "20/20"];
+2000 -> 2 [label = "20/20"];
+} 

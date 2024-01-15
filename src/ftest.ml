@@ -1,6 +1,8 @@
 open Gfile
 open Ford_Fulkerson
+open Tools
 open Money_sharing
+
 let () =
 
   (* Check the number of command-line arguments *)
@@ -26,30 +28,21 @@ let () =
   and _sink = int_of_string Sys.argv.(3)
   in
   
-
- (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
-  
-
-
   (* Open file *)
-  
-  (*let testy = find_route2 (gmap graph (fun x -> int_of_string x )) [] 0 5 in
-  match testy with
-| Some path ->
-  Printf.printf "Path found: ";
-  List.iter (fun node -> Printf.printf "%d -> " node) path;
-  Printf.printf "End\n"
-| None ->
-  Printf.printf "No path found.\n";*)
- (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
  let graph = from_file infile in
- (*let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 3  in    *) 
- let graph3 = nodes [0;1;2]  in 
- let graph4 = all graph3 [0;1;2]  in
- let graph5 = final_graph graph4 [(0,20);(1,-10);(2,-10)]  in
- let graph2 = ford_fulkerson  graph5 2000 1000  in
+ (* For testing just the algorithm *)
+ (*let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) _source _sink  in *)
+
+ (* For solving money sharing problem *)
+
+ let personnes = nodes [0;1;2]  in 
+ let personnes_graph = all personnes [0;1;2]  in
+ let graph_to_solve = final_graph personnes_graph [(0,40);(1,-20);(2,-20)]  in 
+ let graph2 = ford_fulkerson  graph_to_solve 2000 1000 in 
+
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph2 in
-    export "outfiletest" graph;
-    export "outfiletest2" graph2;
+    export "graph_infile" graph;
+    export "graph_money_sharing" (gmap graph_to_solve (fun x -> string_of_int x));
+    export "answer" graph2;
   ()
