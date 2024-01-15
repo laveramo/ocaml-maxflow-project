@@ -1,7 +1,7 @@
 .PHONY: all build format edit demo clean
 
 src?= 0
-dst?=1000
+dst?=5
 graph?=graph2.txt
 
 all: build
