@@ -49,8 +49,7 @@ let () =
  let graph5 = final_graph graph4 [(0,20);(1,-10);(2,-10)]  in
  let graph2 = ford_fulkerson  graph5 2000 1000  in
   (* Rewrite the graph that has been read. *)
-  let () = write_file outfile graph_out in
-    export "outfiletest" graph_in;
-    export "outfiletest2" graph_out;
+  let () = write_file outfile graph2 in
+    export "outfiletest" graph;
+    export "outfiletest2" graph2;
   ()
-
