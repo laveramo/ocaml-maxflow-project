@@ -1,6 +1,6 @@
 open Gfile
-open Tools
 open Ford_Fulkerson
+open Money_sharing
 let () =
 
   (* Check the number of command-line arguments *)
@@ -43,7 +43,11 @@ let () =
   Printf.printf "No path found.\n";*)
  (* let graph2 = gmap (modify_flow (gmap graph (fun x -> int_of_string x)) 3 (Option.get testy) ) (fun x -> string_of_int x)  in*)
  let graph = from_file infile in
- let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 3  in     
+ (*let graph2 = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 3  in    *) 
+ let graph3 = nodes [0;1;2]  in 
+ let graph4 = all graph3 [0;1;2]  in
+ let graph5 = final_graph graph4 [(0,20);(1,-10);(2,-10)]  in
+ let graph2 = ford_fulkerson  graph5 2000 1000  in
   (* Rewrite the graph that has been read. *)
   let () = write_file outfile graph_out in
     export "outfiletest" graph_in;
